@@ -26,7 +26,7 @@ var common = {
     preLoaders: [
       {
         test: /\.jsx?$/,
-        loaders: ['eslint', 'jscs'],
+        loaders: ['eslint'],
         include: PATHS.app
       },
       {
