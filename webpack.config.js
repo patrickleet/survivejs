@@ -22,6 +22,11 @@ var common = {
 //    path: PATHS.build,
 //    filename: 'bundle.js'
 //  },
+  // Add resolve.extensions. '' is needed to allow imports an extension
+  // Note the .'s before extensions!!! Without those matching will fail
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
   module: {
     preLoaders: [
       {
@@ -42,6 +47,12 @@ var common = {
         // loaders process right to left!
         loaders: ['style', 'css'],
         // Include accepts either a path or an array of paths.
+        include: PATHS.app
+      },
+      // Set up jsx. This accepts js too thanks to regex.
+      {
+        test: /\.jsx?$/,
+        loaders: ['babel'],
         include: PATHS.app
       }
     ]
