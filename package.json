@@ -1,0 +1,28 @@
+{
+  "name": "kanban_app",
+  "version": "0.0.1",
+  "description": "A kanban app using webpack and react",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "lint": "eslint . --ext .js --ext .jsx"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-eslint": "^5.0.0-beta6",
+    "css-loader": "^0.23.1",
+    "eslint": "^1.10.3",
+    "eslint-loader": "^1.2.0",
+    "eslint-plugin-react": "^3.15.0",
+    "html-webpack-plugin": "^2.7.1",
+    "jscs": "^2.8.0",
+    "jscs-loader": "^0.2.0",
+    "postcss-loader": "^0.8.0",
+    "style-loader": "^0.13.0",
+    "stylelint": "^4.1.0",
+    "webpack": "^1.12.11",
+    "webpack-dev-server": "^1.14.1",
+    "webpack-merge": "^0.7.3"
+  }
+}
