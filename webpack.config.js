@@ -1,27 +1,29 @@
 
-var path = require('path');
-var webpack = require('webpack');
-var HtmlwebpackPlugin = require('html-webpack-plugin');
-var merge = require('webpack-merge');
-var stylelint = require('stylelint');
+const path = require('path');
+const merge = require('webpack-merge');
+const webpack = require('webpack');
+
+const stylelint = require('stylelint');
 
 const TARGET = process.env.npm_lifecycle_event;
 const PATHS = {
   app: path.join(__dirname, 'app'),
-  build: path.join(__dirname, '.build')
+  build: path.join(__dirname, 'build')
 };
 
-var common = {
+process.env.BABEL_ENV = TARGET;
+
+const common = {
   // Entry accepts a path or an object of entries.
   // The build chapter contains an example of the latter.
   entry: PATHS.app,
 //  Given webpack-dev-server runs in-memory, we can drop
 //  `output`. We'll look into it again once we get to the
 //  build chapter.
-//  output: {
-//    path: PATHS.build,
-//    filename: 'bundle.js'
-//  },
+  output: {
+    path: PATHS.build,
+    filename: 'bundle.js'
+  },
   // Add resolve.extensions. '' is needed to allow imports an extension
   // Note the .'s before extensions!!! Without those matching will fail
   resolve: {
@@ -49,24 +51,16 @@ var common = {
         // Include accepts either a path or an array of paths.
         include: PATHS.app
       },
-      // Set up jsx. This accepts js too thanks to regex.
+      // Set up jsx. This accepts js too thanks to RegExp
       {
         test: /\.jsx?$/,
-        loaders: ['babel'],
+        // Enable caching for improved performance during development
+        // It uses default OS directory by default. If you need something
+        // more custom, pass a path to it. I.e., babel?cacheDirectory=<path>
+        loaders: ['babel?cacheDirectory'],
         include: PATHS.app
       }
     ]
-  },
-  devServer: {
-    historyApiFallback: true,
-    hot: true,
-    inline: true,
-    progress: true,
-    // Display only errors to reduce the amount of output.
-    stats: 'errors-only',
-    // Parse host and port from env so this is easy to customize.
-    host: process.env.HOST,
-    port: process.env.PORT
   },
   postcss: function () {
     return [stylelint({
@@ -74,19 +68,15 @@ var common = {
         'color-hex-case': 'lower'
       }
     })];
-  },
-  plugins: [
-//    new webpack.HotModuleReplacementPlugin(),
-    new HtmlwebpackPlugin({
-      title: 'Kanban app'
-    })
-  ]
+  }
 };
 
+// Default configuration
 if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
     devtool: 'eval-source-map',
     devServer: {
+      contentBase: PATHS.build,
       historyApiFallback: true,
       hot: true,
       inline: true,
@@ -102,3 +92,9 @@ if(TARGET === 'start' || !TARGET) {
     ]
   });
 }
+
+if(TARGET === 'build') {
+  module.exports = merge(common, {});
+}
+
+

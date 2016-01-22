@@ -1,7 +1,10 @@
 {
-  "optional": [
-    "es7.classProperties",
-    "es7.decorators",
-    "es7.objectRestSpread"
-  ]
+  "presets": ["es2015", "react"],
+  "env": {
+    "start": {
+      "presets": [
+        "react-hmre"
+      ]
+    }
+  }
 }
